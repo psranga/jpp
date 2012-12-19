@@ -1,0 +1,6 @@
+// #include <inc1.txt>
+1
+2
+3
+4
+// #include <inc2.txt>

@@ -1,0 +1,3 @@
+Yet another Javascript preprocessor. Written in Python
+using only the Python standard library since the other
+ones seem to be in ruby/gem and Java.

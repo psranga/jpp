@@ -1,0 +1,38 @@
+#!/usr/bin/python
+
+# supports #include
+#
+# reads from stdin and writes to stdout
+
+import sys, re
+
+def copy_file(fn, ofh):
+  try:
+    fh = open(fn, 'r')
+  except IOError:
+    ofh.write('// Error opening: ' + fn)
+    sys.stderr.write('Error opening: ' + fn + '\n')
+  for line in fh:
+    ofh.write(line)
+  if not line.endswith('\n'):
+    sys.stderr.write('adding newline in file: ' + fn + '.\n')
+    ofh.write('\n')
+
+def main(ifh, ofh):
+  prog = re.compile('^//\s+#include\s+.([a-zA-z0-9_/\.]+)')
+  for line in ifh:
+    if line.startswith('//'):
+      m = prog.search(line)
+      if m:
+        fn = m.group(1)
+        ofh.write(line)
+        # if last line of input has #include and does not end with a newline
+        if not line.endswith('\n'):
+          ofh.write('\n')
+        copy_file(fn, ofh)
+        ofh.write('// End of #include\n')
+    else:
+      ofh.write(line)
+
+if __name__ == '__main__':
+  main(sys.stdin, sys.stdout)
