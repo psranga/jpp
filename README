@@ -1,3 +1,41 @@
-Yet another Javascript preprocessor. Written in Python
-using only the Python standard library since the other
-ones seem to be in ruby/gem and Java.
+#include for Javascript files! Sometimes, #include is exactly the evil trick
+you need. :)
+
+Yet another Javascript preprocessor. Written in Python using only the Python
+standard library. The other ones I found seem to be in Ruby (requiring extra
+gems) or Java. Even Debian server images have a Python by default IIRC, so this
+should be trivial to incorporate in your workflow.
+
+Reads from stdin and writes to stdout.
+
+Example:
+
+================== in.txt ==================
+// #include <inc1.txt>
+1
+2
+3
+4
+// #include <inc2.txt>
+============================================
+
+================== inc1.txt ==================
+0
+============================================
+
+================== inc2.txt ==================
+-1
+============================================
+
+$ python jpp < in.txt
+// #include <inc1.txt>
+0
+// End of #include
+1
+2
+3
+4
+// #include <inc2.txt>
+-1
+// End of #include
+$
